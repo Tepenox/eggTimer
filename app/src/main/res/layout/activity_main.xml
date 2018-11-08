@@ -35,8 +35,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:onClick="onButtonClick"
+        android:tag="startTimerButton"
         android:text="Start"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/stopTimerButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent" />
@@ -59,7 +60,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/stopTimerButton"
         android:layout_width="91dp"
         android:layout_height="48dp"
         android:layout_marginStart="8dp"
@@ -67,11 +68,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:onClick="onButtonClick"
+        android:tag="timerStopButton"
         android:text="Stop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.729" />
+        app:layout_constraintVertical_bias="0.712" />
 </android.support.constraint.ConstraintLayout>

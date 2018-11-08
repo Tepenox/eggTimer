@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -13,7 +14,8 @@ public class MainActivity extends AppCompatActivity {
 
     SeekBar timerSeekBar;
     TextView timerTextView;
-    Button timerButton;
+    Button timerStartButton;
+    Button timerStopButton;
     CountDownTimer timer;
     MediaPlayer mp;
     int timeLeft;
@@ -22,27 +24,44 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onButtonClick(View view) {
-        if (timerState == 0 || timerState == 2) {
-            timer.start();
-            timerButton.setText("pause");
-            timerState = 1;
-            timerSeekBar.setEnabled(false);
-        } else if (timerState == 1 || timerState == 3) {
-            if (timerState != 3) {
-                //pausing the timer here
-                timer.cancel();
-                setTimer(timeLeft);
-                timerButton.setText("resume");
-                timerState = 2;
-            } else {
-                timer.cancel();
-                mp.stop();
-                timerSeekBar.setEnabled(true);
-                timerState = 0;
-                timerSeekBar.setProgress(30);
+        if (!view.getTag().toString().equals("timerStopButton")) {
+            if (timerState == 0 || timerState == 2) {
+                timer.start();
+                timerStartButton.setText("pause");
+                timerState = 1;
+                timerSeekBar.setEnabled(false);
+                timerStopButton.setVisibility(View.INVISIBLE);
+            } else if (timerState == 1 || timerState == 3) {
+                if (timerState != 3) {
+                    //pausing the timer here
+                    timer.cancel();
+                    setTimer(timeLeft);
+                    timerStartButton.setText("resume");
+                    timerStopButton.setVisibility(View.VISIBLE);
+                    timerState = 2;
+                } else {
+                    //time has done and clicking
+                    timer.cancel();
+                    mp.pause();
+                    mp.seekTo(0);
+                    timerStartButton.setText("start");
+                    timerSeekBar.setEnabled(true);
+                    timerState = 0;
+                    timerSeekBar.setProgress(900);
 
+                }
             }
-
+        }else {
+            //stop button has been clicked
+            timer.cancel();
+            timerSeekBar.setEnabled(true);
+            timerSeekBar.setProgress(900);
+            setTimerText(900000);
+            setTimer(900000);
+            timerStopButton.setVisibility(View.INVISIBLE);
+            timerStartButton.setText("start");
+            timerState = 0;
+            Log.i("m","Stop button has been clicked");
         }
 
     }
@@ -54,19 +73,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         timerSeekBar = findViewById(R.id.timerSeekBar);
         timerTextView = findViewById(R.id.timerTextView);
-        timerButton = findViewById(R.id.timerStartButton);
-        mp = MediaPlayer.create(getApplicationContext(), R.raw.alarm);
+        timerStartButton = findViewById(R.id.timerStartButton);
+        timerStopButton = findViewById(R.id.stopTimerButton);
+        timerStopButton.setVisibility(View.INVISIBLE);
+        mp = MediaPlayer.create(getApplicationContext(), R.raw.alarmsong);
 
-        timerSeekBar.setMax(600);
-        timerSeekBar.setProgress(30);
-
-        timerTextView.setText("00:30");
-
-        setTimer(30000);
+        timerSeekBar.setMax(1800);
+        timerSeekBar.setProgress(900);
+        setTimerText(900000);
+        setTimer(900000);
 
         timerSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (progress<1){
+                    progress = 1;
+                }
                 setTimerText(progress * 1000);
                 setTimer(progress * 1000);
             }
@@ -96,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 mp.start();
-                timerButton.setText("stop");
+                timerStartButton.setText("stop");
                 timerState = 3;
             }
 
