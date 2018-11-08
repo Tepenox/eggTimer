@@ -35,6 +35,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:onClick="onButtonClick"
         android:text="Start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +43,7 @@
 
     <TextView
         android:id="@+id/timerTextView"
-        android:layout_width="143dp"
+        android:layout_width="126dp"
         android:layout_height="77dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"

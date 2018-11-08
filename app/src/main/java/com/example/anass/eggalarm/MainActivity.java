@@ -19,10 +19,10 @@ public class MainActivity extends AppCompatActivity {
     SeekBar timerSeekBar;
     TextView timerTextView;
     Button timerButton;
-    CountDownTimer timer
+    CountDownTimer timer;
 
     public void onButtonClick(View view) {
-
+        timer.start();
 
     }
 
@@ -40,24 +40,55 @@ public class MainActivity extends AppCompatActivity {
 
         timerTextView.setText("00:30");
 
-        timer = new CountDownTimer(30000, 1000) {
+
+        timerSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                setTimerText(progress * 1000);
+                changeInstanceTimer(progress * 1000);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+    }
+
+    private void changeInstanceTimer(final int milliseconds) {
+        timer = new CountDownTimer(milliseconds, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                int minutes = (int) millisUntilFinished / 1000 / 60;
-                int seconds = (int) millisUntilFinished / 1000 - minutes * 60;
-                String timerText;
-                if ()
-                String timerText = minutes + " : " + seconds;
-                timerTextView.setText();
-
-                Log.i("info ", seconds + "seconds " + minutes + "  minutes");
+                setTimerText((int) millisUntilFinished);
             }
 
             @Override
             public void onFinish() {
 
             }
+
         };
+    }
+
+    private void setTimerText(int milliseconds) {
+        int minutes = milliseconds / 1000 / 60;
+        int seconds = milliseconds / 1000 - minutes * 60;
+        String minutesText = Integer.toString(minutes);
+        String secondsText = Integer.toString(seconds);
+        if (minutes <= 9)
+            minutesText = "0" + minutesText;
+        if (seconds <= 9)
+            secondsText = "0" + secondsText;
+
+        String timerText = minutesText + ":" + secondsText;
+        timerTextView.setText(timerText);
 
     }
 }
