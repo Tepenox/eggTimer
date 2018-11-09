@@ -7,3 +7,9 @@ Start
 Pause
 Resume
 Stop
+
+#ScreenShots
+
+![alt text](ScreenShots/Capture1.PNG)
+![alt text](ScreenShots/Capture3.PNG)
+![alt text](ScreenShots/Capture3.PNG)
