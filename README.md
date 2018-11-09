@@ -12,4 +12,4 @@ Stop
 
 ![alt text](ScreenShots/Capture1.PNG)
 ![alt text](ScreenShots/Capture3.PNG)
-![alt text](ScreenShots/Capture3.PNG)
+![alt text](ScreenShots/Capture2.PNG)
